@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# jasonwong.dev — Personal Portfolio
 
-## Getting Started
+My personal portfolio website built with Next.js and Tailwind CSS, hosted on AWS (S3 + CloudFront).
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework:** Next.js 16 (Static Export)
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **Hosting:** AWS S3 + CloudFront
+- **IaC:** Terraform
+- **CI/CD:** GitHub Actions (planned)
+
+## Architecture
+
+```
+Route 53 (DNS) → CloudFront (CDN + HTTPS) → S3 (Static files)
+                        │
+                   ACM Certificate
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Local Development
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000)
 
-## Learn More
+## Build
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npm run build
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Static files output to `./out/`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploy to AWS
 
-## Deploy on Vercel
+```bash
+# First time: provision infrastructure
+cd infra
+terraform init
+terraform apply
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# Deploy site
+cd ..
+./deploy.sh
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+├── app/              # Next.js app router
+├── components/       # React components (Hero, About, etc.)
+├── infra/            # Terraform (S3, CloudFront, ACM)
+├── public/           # Static assets
+└── deploy.sh         # Build + sync to S3
+```
