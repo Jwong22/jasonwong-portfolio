@@ -54,15 +54,26 @@ const projects = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.1 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 40, rotateX: 5 },
+  visible: { opacity: 1, y: 0, rotateX: 0, transition: { type: "spring", stiffness: 80, damping: 15 } },
+};
+
 export default function Experience() {
   return (
     <section id="experience" className="py-24 px-6">
       <div className="max-w-5xl mx-auto">
         <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -20 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           className="text-3xl font-bold mb-4 flex items-center gap-3"
+          style={{ color: "var(--fg)" }}
         >
           <span className="text-primary font-mono text-xl">02.</span>
           Project Experience
@@ -74,47 +85,60 @@ export default function Experience() {
           viewport={{ once: true }}
           className="mb-12"
         >
-          <p className="text-muted text-lg">
+          <p className="text-lg" style={{ color: "var(--muted)" }}>
             Cloud Analyst @{" "}
-            <span className="text-foreground font-medium">Galactic Network Sdn Bhd</span>
-            <span className="text-muted"> · April 2025 – Present</span>
+            <span className="font-medium" style={{ color: "var(--fg)" }}>Galactic Network Sdn Bhd</span>
+            <span style={{ color: "var(--muted)" }}> · April 2025 – Present</span>
           </p>
-          <p className="text-muted text-sm mt-1">
+          <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>
             Delivering AWS infrastructure for enterprise clients across Malaysia
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-5">
+        <motion.div
+          className="grid md:grid-cols-2 gap-5"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
           {projects.map((project, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.05 }}
-              className={`p-6 rounded-lg border transition-all hover:translate-y-[-2px] hover:shadow-lg hover:shadow-primary/5 ${
-                project.highlight
-                  ? "bg-card border-primary/30"
-                  : "bg-card border-card-border hover:border-primary/30"
-              }`}
+              variants={cardVariants}
+              whileHover={{ y: -4, boxShadow: "0 10px 40px rgba(59,130,246,0.1)" }}
+              className="p-6 rounded-lg transition-all"
+              style={{
+                backgroundColor: "var(--surface)",
+                border: project.highlight ? "1px solid var(--color-primary)" : "1px solid var(--border)",
+              }}
             >
               <div className="flex items-start justify-between mb-2">
                 <span className="text-xs font-mono text-primary bg-primary/10 px-2 py-1 rounded">
                   {project.client}
                 </span>
                 {project.highlight && (
-                  <span className="text-xs text-primary">★ Featured</span>
+                  <motion.span
+                    className="text-xs text-primary"
+                    animate={{ opacity: [0.5, 1, 0.5] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                  >
+                    ★ Featured
+                  </motion.span>
                 )}
               </div>
-              <h3 className="text-lg font-semibold text-foreground mt-3 mb-2">
+              <h3 className="text-lg font-semibold mt-3 mb-2" style={{ color: "var(--fg)" }}>
                 {project.type}
               </h3>
-              <p className="text-muted text-sm mb-4 leading-relaxed">{project.description}</p>
+              <p className="text-sm mb-4 leading-relaxed" style={{ color: "var(--muted)" }}>
+                {project.description}
+              </p>
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((t) => (
                   <span
                     key={t}
-                    className="text-xs font-mono px-2 py-1 rounded bg-background border border-card-border text-muted"
+                    className="text-xs font-mono px-2 py-1 rounded"
+                    style={{ backgroundColor: "var(--bg)", border: "1px solid var(--border)", color: "var(--muted)" }}
                   >
                     {t}
                   </span>
@@ -122,35 +146,37 @@ export default function Experience() {
               </div>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
 
         {/* GitHub Projects */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-12 p-6 rounded-lg border border-card-border bg-card"
+          transition={{ type: "spring", stiffness: 80 }}
+          className="mt-12 p-6 rounded-lg"
+          style={{ backgroundColor: "var(--surface)", border: "1px solid var(--border)" }}
         >
-          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+          <h3 className="text-lg font-semibold mb-4 flex items-center gap-2" style={{ color: "var(--fg)" }}>
             <FiExternalLink className="text-primary" />
             Open Source Projects
           </h3>
-          <div className="space-y-3">
-            <a
-              href="https://github.com/Jwong22/aws-landing-zone-project"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="block p-4 rounded border border-card-border hover:border-primary/40 transition-colors"
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-medium text-foreground">aws-landing-zone-project</span>
-                <FiExternalLink className="text-muted" size={14} />
-              </div>
-              <p className="text-sm text-muted mt-1">
-                Secure multi-account AWS Landing Zone built with Terraform — Organizations, SCPs, GuardDuty, Security Hub, centralized logging
-              </p>
-            </a>
-          </div>
+          <motion.a
+            href="https://github.com/Jwong22/aws-landing-zone-project"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="block p-4 rounded transition-colors"
+            style={{ border: "1px solid var(--border)" }}
+            whileHover={{ x: 4 }}
+          >
+            <div className="flex items-center justify-between">
+              <span className="font-medium" style={{ color: "var(--fg)" }}>aws-landing-zone-project</span>
+              <FiExternalLink size={14} style={{ color: "var(--muted)" }} />
+            </div>
+            <p className="text-sm mt-1" style={{ color: "var(--muted)" }}>
+              Secure multi-account AWS Landing Zone built with Terraform — Organizations, SCPs, GuardDuty, Security Hub, centralized logging
+            </p>
+          </motion.a>
         </motion.div>
       </div>
     </section>

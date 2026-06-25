@@ -31,7 +31,8 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggle}
-      className="text-muted hover:text-foreground transition-colors"
+      className="hover:text-primary transition-colors p-2 rounded-lg"
+      style={{ color: "var(--muted)" }}
       aria-label="Toggle theme"
     >
       {dark ? <FiSun size={20} /> : <FiMoon size={20} />}

@@ -15,10 +15,10 @@ export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-card-border" style={{ backgroundColor: "color-mix(in srgb, var(--color-background) 80%, transparent)" }}>
+    <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b" style={{ backgroundColor: "color-mix(in srgb, var(--bg) 85%, transparent)", borderColor: "var(--border)" }}>
       <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
         <a href="#" className="text-xl font-bold text-primary">
-          JW<span className="text-foreground">.</span>
+          JW<span style={{ color: "var(--fg)" }}>.</span>
         </a>
 
         {/* Desktop */}
@@ -28,7 +28,8 @@ export default function Navbar() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="text-muted hover:text-foreground transition-colors"
+                  className="hover:text-primary transition-colors"
+                  style={{ color: "var(--muted)" }}
                 >
                   {link.label}
                 </a>
@@ -42,9 +43,9 @@ export default function Navbar() {
         <div className="flex md:hidden items-center gap-4">
           <ThemeToggle />
           <button
-            className="text-foreground"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
+            style={{ color: "var(--fg)" }}
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               {isOpen ? (
@@ -68,7 +69,8 @@ export default function Navbar() {
             <li key={link.href}>
               <a
                 href={link.href}
-                className="block text-muted hover:text-foreground transition-colors"
+                className="block hover:text-primary transition-colors"
+                style={{ color: "var(--muted)" }}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
